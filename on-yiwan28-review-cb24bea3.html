@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>亿万28 · 再次触达的信息卡片</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f2f4f6;
+      color: #1e2a3a;
+      line-height: 1.6;
+      padding: 2rem 1.2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .page-wrap {
+      max-width: 1120px;
+      width: 100%;
+    }
+
+    /* 主视觉卡片 */
+    .hero-card {
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.02);
+      border: 1px solid #e6eaef;
+      padding: 3rem 2rem 2.8rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      transition: box-shadow 0.2s;
+    }
+    .hero-card:hover {
+      box-shadow: 0 8px 28px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .hero-pretitle {
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #7b8ba3;
+      background: #f0f3f7;
+      display: inline-block;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      margin-bottom: 1.2rem;
+    }
+    .hero-card h1 {
+      font-size: 2.6rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: #0f1a2b;
+      margin-bottom: 0.8rem;
+    }
+    .hero-card h1 span {
+      display: inline-block;
+      background: linear-gradient(135deg, #1f3a5f, #2b4b73);
+      color: #fff;
+      padding: 0 0.6rem;
+      border-radius: 12px;
+      font-weight: 500;
+    }
+    .hero-sub {
+      font-size: 1.1rem;
+      color: #3d4f67;
+      max-width: 640px;
+      margin: 0 auto 1.4rem;
+      border-bottom: 1px dashed #dce2ea;
+      padding-bottom: 1.2rem;
+    }
+    .hero-meta {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem 1.6rem;
+      flex-wrap: wrap;
+      font-size: 0.9rem;
+      color: #556b82;
+    }
+    .hero-meta span {
+      background: #f5f8fc;
+      padding: 0.2rem 0.9rem;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* 卡片网格 */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      padding: 1.8rem 1.5rem;
+      transition: box-shadow 0.25s, transform 0.15s;
+    }
+    .card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+      transform: translateY(-2px);
+    }
+    .card-icon {
+      font-size: 2rem;
+      margin-bottom: 0.6rem;
+      display: block;
+      line-height: 1;
+    }
+    .card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: #142130;
+    }
+    .card p {
+      font-size: 0.95rem;
+      color: #2d4057;
+    }
+    .card ul {
+      list-style: none;
+      margin-top: 0.7rem;
+    }
+    .card li {
+      font-size: 0.9rem;
+      color: #475f77;
+      padding: 0.25rem 0;
+      position: relative;
+      padding-left: 1.2rem;
+    }
+    .card li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: #3b6b9e;
+    }
+
+    /* 自然链接段落 + FAQ 风格 */
+    .link-note {
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+      padding: 2rem 2rem 1.8rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .link-note-text {
+      flex: 2;
+      min-width: 240px;
+    }
+    .link-note-text p {
+      font-size: 1rem;
+      margin-bottom: 0.7rem;
+      color: #1d2d41;
+    }
+    .link-note-text a {
+      color: #1f4a7a;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .link-note-text a:hover {
+      border-bottom-color: #1f4a7a;
+    }
+    .faq-mini {
+      flex: 1;
+      min-width: 180px;
+      background: #f7faff;
+      padding: 1rem 1.2rem;
+      border-radius: 16px;
+      border-left: 3px solid #2b5e8c;
+    }
+    .faq-mini h4 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #2b5e8c;
+      margin-bottom: 0.6rem;
+    }
+    .faq-mini p {
+      font-size: 0.9rem;
+      color: #1d334a;
+      margin-bottom: 0.3rem;
+    }
+    .faq-mini small {
+      display: block;
+      font-size: 0.8rem;
+      color: #5e748b;
+      margin-top: 0.4rem;
+    }
+
+    /* 适合人群紧凑卡片 */
+    .audience-wrap {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .audience-item {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.02);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .audience-item .emoji {
+      font-size: 1.6rem;
+    }
+    .audience-item .desc {
+      font-size: 0.9rem;
+      color: #20344a;
+    }
+    .audience-item .desc strong {
+      display: block;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #0f1f31;
+    }
+
+    /* 页脚 */
+    .footer-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #5b728b;
+      border-top: 1px solid #dae1ea;
+      padding-top: 2rem;
+      margin-top: 0.5rem;
+    }
+    .footer-note a {
+      color: #1f4a7a;
+      text-decoration: none;
+    }
+    .footer-note a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+      body { padding: 1rem 0.8rem; }
+      .hero-card { padding: 2rem 1.2rem; }
+      .hero-card h1 { font-size: 2rem; }
+      .link-note { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- 主视觉 -->
+  <div class="hero-card">
+    <div class="hero-pretitle">再次收藏 · 常回来</div>
+    <h1>信息密度 · <span>亿万28</span></h1>
+    <div class="hero-sub">
+      一个聚焦内容回溯与持续关注的轻信息站
+    </div>
+    <div class="hero-meta">
+      <span>📌 已收藏</span>
+      <span>🔄 持续更新</span>
+      <span>📁 卡片式索引</span>
+    </div>
+  </div>
+
+  <!-- 用途卡片 × 3 -->
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-icon">📋</span>
+      <h3>用途快览</h3>
+      <p>快速了解内容结构、分类入口与模块定位，适合初次回访或想重新梳理信息层次的使用场景。</p>
+      <ul>
+        <li>模块索引一目了然</li>
+        <li>可反复回溯的布局</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔖</span>
+      <h3>收藏友好</h3>
+      <p>页面设计兼顾书签栏与稍后读工具，卡片分组减少信息噪声，方便随时定位。</p>
+      <ul>
+        <li>细边框 + 柔和阴影</li>
+        <li>分区清晰，不堆砌</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="card-icon">🧭</span>
+      <h3>持续关注</h3>
+      <p>适合将站点设为常访列表，每次打开可快速获取结构更新，无需反复适应布局。</p>
+      <ul>
+        <li>低视觉变动</li>
+        <li>信息密度稳定</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 自然链接段落 + FAQ 摘要 -->
+  <div class="link-note">
+    <div class="link-note-text">
+      <p>如果你曾将 <a href="https://on-yiwan28.com">亿万28</a> 加入书签或稍后再读列表，这次返回会发现卡片式信息布局更适合快速扫描。页面以浅灰背景与分区卡片承载内容，减少重新适应的成本。</p>
+      <p>对于希望维持低干扰、高信息密度的回访者，可直接通过浏览器书签栏定位。站内结构以模块化卡片区分用途、人群与常见问题，日常回溯无需跳转多个页面。</p>
+      <p style="margin-top:0.6rem; font-size:0.9rem; color:#3a556e;">▸ 建议将 <a href="https://on-yiwan28.com">亿万28</a> 置于收藏夹常用分组，便于持续关注内容调整。</p>
+    </div>
+    <div class="faq-mini">
+      <h4>❓ FAQ 摘要</h4>
+      <p><strong>页面会频繁变动吗？</strong> 卡片模块保持稳定，仅内容微调。</p>
+      <p><strong>适合移动端收藏？</strong> 响应式布局，手机浏览器同样适用。</p>
+      <small>完整 FAQ 参见站内专题</small>
+    </div>
+  </div>
+
+  <!-- 适合人群：紧凑卡片 -->
+  <div class="audience-wrap">
+    <div class="audience-item">
+      <span class="emoji">🧑‍💻</span>
+      <div class="desc"><strong>信息整理型</strong>偏好结构化卡片与低噪界面</div>
+    </div>
+    <div class="audience-item">
+      <span class="emoji">📑</span>
+      <div class="desc"><strong>书签收集者</strong>习惯将站点归入收藏夹反复访问</div>
+    </div>
+    <div class="audience-item">
+      <span class="emoji">🔁</span>
+      <div class="desc"><strong>定期回溯者</strong>需要稳定入口与内容密度</div>
+    </div>
+    <div class="audience-item">
+      <span class="emoji">🧩</span>
+      <div class="desc"><strong>轻量研究者</strong>关注信息索引而非频繁改版</div>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <div class="footer-note">
+    <p>信息卡片 · 持续迭代 · 基于 <a href="https://on-yiwan28.com">亿万28</a> 结构构建</p>
+    <p style="margin-top:0.3rem;color:#7e93ab;">页面仅供内容索引，不构成任何承诺或引导</p>
+  </div>
+
+</div>
+</body>
+</html>
